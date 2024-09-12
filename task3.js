@@ -1,6 +1,6 @@
-import { KeyGenerator } from './keyGenerator.js';
-import { GameLogic } from './GameLogic.js';
+import { KeyGenerator } from './KeyGenerator.js';
 import { HMACCalculator } from './HMACCalculator.js';
+import { GameLogic } from './GameLogic.js';
 import { HelpTableGenerator } from './HelpTableGenerator.js';
 import readline from 'readline';
 import chalk from 'chalk';
@@ -10,8 +10,8 @@ function main() {
     const moves = args;
 
     if (moves.length < 3 || moves.length % 2 === 0 || new Set(moves).size !== moves.length) {
-        console.error(chalk.red("Incorrect arguments! Please provide an odd number of arguments and non-repeating moves."));
-        console.error(chalk.green("Example: node <file_name> rock paper scissors"));
+        console.error(chalk.red("Please provide an odd number >= 3 of non-repeating arguments."));
+        console.error(chalk.green("Example: node main.js rock paper scissors"));
         process.exit(1);
     }
 
@@ -39,12 +39,15 @@ function main() {
             } else if (!isNaN(input) && input > 0 && input <= moves.length) {
                 const userMove = moves[input - 1];
                 const computerMove = moves[Math.floor(Math.random() * moves.length)];
+
+                const hmac = HMACCalculator.calculateHMAC(key, computerMove);
+
                 console.log('');
                 console.log(`Your move: ${userMove}`);
                 console.log(`Computer move: ${computerMove}`);
                 console.log(`Result: ${game.determineWinner(userMove, computerMove)}`);
                 console.log('');
-                console.log(chalk.cyan(`HMAC key: ${key}`));
+                console.log(chalk.cyan(`HMAC key: ${hmac}`));
                 console.log('-'.repeat(key.length + 10));
                 console.log('');
                 showMenu();
