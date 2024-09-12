@@ -1,5 +1,6 @@
 import { KeyGenerator } from './keyGenerator.js';
 import { GameLogic } from './GameLogic.js';
+import { HMACCalculator } from './HMACCalculator.js';
 import { HelpTableGenerator } from './HelpTableGenerator.js';
 import readline from 'readline';
 import chalk from 'chalk';
